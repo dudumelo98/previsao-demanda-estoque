@@ -28,7 +28,7 @@ def preparar_serie_prophet(df: pd.DataFrame, sku: str) -> pd.DataFrame:
     Filtra e formata a série temporal de um SKU para o formato Prophet.
     
     Prophet exige colunas ds (datetime) e y (valor). Preencho datas sem venda
-    com zero — ausência de dado não significa dado ausente, significa que não vendeu.
+    com zero, ausência de dado não significa dado ausente, significa que não vendeu.
     """
     serie = df[df['sku'] == sku][['data', 'quantidade']].copy()
     serie.columns = ['ds', 'y']
@@ -69,7 +69,7 @@ def avaliar_modelo(modelo: Prophet, serie: pd.DataFrame, horizonte_dias: int = 6
     Avalia o modelo no horizonte de previsão definido.
     
     Retorna MAE, MAPE e RMSE. Para o problema de ruptura, MAPE é a métrica
-    mais interpretável para o time de operações — erro percentual por dia.
+    mais interpretável para o time de operações, erro percentual por dia.
     """
     corte = serie['ds'].max() - pd.Timedelta(days=horizonte_dias)
     treino = serie[serie['ds'] <= corte]
@@ -113,7 +113,7 @@ def prever_sku(df: pd.DataFrame, sku: str, horizonte: int = 30) -> pd.DataFrame:
     serie = preparar_serie_prophet(df, sku)
     
     if len(serie) < 30:
-        logger.warning(f'SKU {sku} tem menos de 30 dias de histórico — pulando')
+        logger.warning(f'SKU {sku} tem menos de 30 dias de histórico, pulando')
         return pd.DataFrame()
     
     modelo = treinar_prophet(serie)
@@ -121,7 +121,7 @@ def prever_sku(df: pd.DataFrame, sku: str, horizonte: int = 30) -> pd.DataFrame:
     futuro = modelo.make_future_dataframe(periods=horizonte)
     previsao = modelo.predict(futuro)
     
-    # Retorno apenas os dias futuros — não preciso devolver o histórico
+    # Retorno apenas os dias futuros, não preciso devolver o histórico
     previsao_futura = previsao[previsao['ds'] > serie['ds'].max()][
         ['ds', 'yhat', 'yhat_lower', 'yhat_upper']
     ].copy()

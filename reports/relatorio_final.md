@@ -1,10 +1,10 @@
-# Relatório Final — Previsão de Demanda e Ruptura de Estoque
+# Relatório Final, Previsão de Demanda e Ruptura de Estoque
 
 ## Resumo Executivo
 
 Este projeto desenvolveu um sistema de previsão de demanda para suportar decisões de reposição de estoque em operações varejistas. Usando o dataset UCI Online Retail II (mais de 500 mil transações), foram implementados modelos de forecasting com Prophet e LSTM, além de uma clusterização de SKUs por padrão de demanda.
 
-Os modelos alcançaram MAPE médio de 12-18% no horizonte de 30 dias para produtos da classe A — dentro do intervalo esperado para séries com sazonalidade forte e histórico de dois anos.
+Os modelos alcançaram MAPE médio de 12-18% no horizonte de 30 dias para produtos da classe A, dentro do intervalo esperado para séries com sazonalidade forte e histórico de dois anos.
 
 ## Descrição do Dataset
 
@@ -30,19 +30,19 @@ A análise seguiu um pipeline estruturado em cinco etapas.
 
 **Engenharia de Features** gerou features temporais cíclicas (seno/cosseno para mês e dia da semana), lags de 1, 7, 14 e 30 dias, médias móveis e desvio padrão em janelas deslizantes de 7, 14 e 30 dias.
 
-**Forecasting com Prophet** — escolhido por lidar nativamente com sazonalidade múltipla e ser robusto a dados faltantes. Sazonalidade multiplicativa foi usada porque a amplitude sazonal cresce com a tendência. Feriados do Reino Unido foram incluídos.
+**Forecasting com Prophet**, escolhido por lidar nativamente com sazonalidade múltipla e ser robusto a dados faltantes. Sazonalidade multiplicativa foi usada porque a amplitude sazonal cresce com a tendência. Feriados do Reino Unido foram incluídos.
 
 **LSTM** foi implementado para SKUs com padrões complexos e não-lineares que o Prophet não capturou bem. Arquitetura com duas camadas LSTM (64 e 32 unidades) e janela deslizante de 30 dias.
 
-**Clusterização K-Means** com K=4 segmentou os SKUs em quatro perfis: alto giro com baixa variação, sazonais, baixo giro regular e alta variabilidade. O Silhouette Score ficou em 0.41 — razoável para dados de demanda com muitos outliers.
+**Clusterização K-Means** com K=4 segmentou os SKUs em quatro perfis: alto giro com baixa variação, sazonais, baixo giro regular e alta variabilidade. O Silhouette Score ficou em 0.41, razoável para dados de demanda com muitos outliers.
 
 ## Principais Achados
 
-**Sazonalidade é o fator dominante.** O pico de outubro e novembro é consistente e previsível — representa antecipação de compras de fim de ano. Modelos que ignoram isso erram de forma sistemática nesse período.
+**Sazonalidade é o fator dominante.** O pico de outubro e novembro é consistente e previsível, representa antecipação de compras de fim de ano. Modelos que ignoram isso erram de forma sistemática nesse período.
 
 **20% dos SKUs geram 80% da receita.** Concentrar esforços de modelagem nos SKUs classe A é mais eficiente do que tentar modelar todos os 3.500 produtos com a mesma profundidade.
 
-**Coeficiente de variação separa produtos gerenciáveis de imprevisíveis.** SKUs com CV acima de 2 precisam de buffer de estoque significativamente maior — não adianta melhorar a previsão se a demanda é intrinsecamente errática.
+**Coeficiente de variação separa produtos gerenciáveis de imprevisíveis.** SKUs com CV acima de 2 precisam de buffer de estoque significativamente maior, não adianta melhorar a previsão se a demanda é intrinsecamente errática.
 
 **Prophet supera ARIMA no horizonte de 30 dias.** Para horizontes curtos (7 dias), a diferença é pequena. Para 30 dias, o Prophet mantém melhor estabilidade por causa do componente de tendência com changepoints.
 
@@ -60,7 +60,7 @@ Os valores são médias sobre os SKUs classe A com pelo menos 180 dias de histó
 
 ## Limitações
 
-Os modelos assumem que o padrão histórico se repete com variações sazonais previsíveis. Eventos externos abruptos — interrupção logística, recall de produto, promoção não planejada — não são capturados sem fontes de dados externas.
+Os modelos assumem que o padrão histórico se repete com variações sazonais previsíveis. Eventos externos abruptos, interrupção logística, recall de produto, promoção não planejada, não são capturados sem fontes de dados externas.
 
 O dataset não inclui informações de estoque real. A identificação de ruptura foi feita por proxy (demanda acima do percentil 75), o que subestima o problema real em produtos com giro irregular.
 
@@ -68,11 +68,11 @@ Para SKUs com menos de 60 dias de histórico (aproximadamente 15% do catálogo),
 
 ## Recomendações
 
-**Implementação em fases.** Começar pelos SKUs classe A — isso cobre 80% do impacto financeiro com 20% do esforço de manutenção.
+**Implementação em fases.** Começar pelos SKUs classe A, isso cobre 80% do impacto financeiro com 20% do esforço de manutenção.
 
 **Integração com dados de estoque real.** O maior ganho operacional vem de cruzar a previsão de demanda com o nível atual de estoque para gerar alertas de reposição automática.
 
-**Retreinamento semanal.** Modelos de demanda degradam com o tempo. Um pipeline de retreinamento automático — por exemplo com Airflow — mantém o MAPE estável ao longo do tempo.
+**Retreinamento semanal.** Modelos de demanda degradam com o tempo. Um pipeline de retreinamento automático, por exemplo com Airflow, mantém o MAPE estável ao longo do tempo.
 
 **Estratégia diferenciada por cluster.** SKUs de alta variabilidade precisam de política de segurança de estoque diferente dos SKUs de alto giro e baixa variação. O cluster resolve isso sem precisar tratar cada produto individualmente.
 

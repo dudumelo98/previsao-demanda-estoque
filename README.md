@@ -16,7 +16,7 @@ Este projeto usa séries temporais e machine learning para prever a demanda por 
 
 ## Resultados esperados
 
-Com base em projetos similares no setor varejista, modelos deste tipo reduzem rupturas entre 20% e 40% e liberam capital imobilizado em excesso de estoque — dependendo da qualidade e granularidade dos dados históricos disponíveis.
+Com base em projetos similares no setor varejista, modelos deste tipo reduzem rupturas entre 20% e 40% e liberam capital imobilizado em excesso de estoque, dependendo da qualidade e granularidade dos dados históricos disponíveis.
 
 ## Tecnologias utilizadas
 
@@ -31,8 +31,8 @@ Com base em projetos similares no setor varejista, modelos deste tipo reduzem ru
 
 Os dados utilizados são públicos e de alta confiabilidade. Para detalhes técnicos sobre as fontes, links para download e dicionário de dados, consulte o **[Guia de Dados](data/README.md)**.
 
-- **UCI Online Retail II** — Mais de 500 mil transações reais de varejo.
-- **World Bank Commodity Markets Outlook** — Preços e demanda global de commodities.
+- **UCI Online Retail II**, Mais de 500 mil transações reais de varejo.
+- **World Bank Commodity Markets Outlook**, Preços e demanda global de commodities.
 
 ## Estrutura do projeto
 
@@ -121,7 +121,7 @@ Geradas automaticamente ao executar os notebooks e salvas em `reports/figures/`.
 
 ![Receita mensal](reports/figures/receita_mensal.png)
 
-**Curva de Pareto — Classificação ABC de SKUs**
+**Curva de Pareto, Classificação ABC de SKUs**
 
 ![Pareto SKUs](reports/figures/pareto_skus.png)
 
@@ -133,7 +133,7 @@ Geradas automaticamente ao executar os notebooks e salvas em `reports/figures/`.
 
 ![Clusters K-Means](reports/figures/kmeans_clusters.png)
 
-**Escolha de K — Cotovelo e Silhouette**
+**Escolha de K, Cotovelo e Silhouette**
 
 ![Escolha de K](reports/figures/kmeans_escolha_k.png)
 

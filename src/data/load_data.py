@@ -23,7 +23,7 @@ def carregar_online_retail(caminho: Path = None) -> pd.DataFrame:
     Carrega e une as duas abas do dataset UCI Online Retail II.
     
     Retorna o dataset com colunas renomeadas para minúsculo e snake_case,
-    sem nenhuma limpeza aplicada — isso é responsabilidade de limpar_dados().
+    sem nenhuma limpeza aplicada, isso é responsabilidade de limpar_dados().
     """
     if caminho is None:
         caminho = RAW_PATH / 'online_retail_II.xlsx'
@@ -46,9 +46,9 @@ def limpar_dados(df: pd.DataFrame) -> pd.DataFrame:
     Aplica a limpeza definida durante a EDA.
     
     Decisões tomadas:
-    - Removo cancelamentos (Invoice começando com 'C') — não representam demanda real
-    - Removo quantity e price negativos ou zero — podem ser ajustes contábeis
-    - Removo linhas sem customer_id — sem identificador não consigo rastrear comportamento
+    - Removo cancelamentos (Invoice começando com 'C'), não representam demanda real
+    - Removo quantity e price negativos ou zero, podem ser ajustes contábeis
+    - Removo linhas sem customer_id, sem identificador não consigo rastrear comportamento
     - Removo duplicatas exatas
     """
     n_inicial = len(df)
